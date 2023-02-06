@@ -1,1 +1,4 @@
 powershell -Command "Start-Process PowerShell -Verb RunAs"
+
+
+wmic path SoftwareLicensingService get OA3xOriginalProductKey
