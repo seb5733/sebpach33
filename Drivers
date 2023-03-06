@@ -1,0 +1,7 @@
+# Ajout des drivers en automatique des périphériques inconnus
+
+# Variable contenant le chemin du dossier
+$Path = Read-Host "Chemin du dossier de drivers"
+
+# Associe les drivers aux périphériques inconnus
+Get-ChildItem $Path -Recurse -Filter "*.inf" | ForEach-Object {PNPUtil.exe /add-driver $_.FullName /install}
