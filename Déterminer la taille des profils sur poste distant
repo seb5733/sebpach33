@@ -1,0 +1,15 @@
+Enter-PSSession
+
+Start-Sleep 10
+
+$PathUsers = "c:\users"
+$Profiles = Get-ChildItem -Path $PathUsers
+
+
+foreach($ListProfiles in $Profiles){
+
+    $PathProfiles = Join-Path $PathUsers $ListProfiles
+    Write-Host $ListProfiles
+    ((Get-ChildItem -Path $PathProfiles -Recurse | Measure-Object -Property Length -Sum).Sum)/1GB
+    
+}
