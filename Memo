@@ -2,6 +2,10 @@
 powershell -Command "Start-Process PowerShell -Verb RunAs"
 
 # Extraire License Key OEM Windows
+<<<<<<< HEAD
 wmic path SoftwareLicensingService get OA3xOriginalProductKey
 
 
+=======
+wmic path SoftwareLicensingService get OA3xOriginalProductKey
+>>>>>>> ddeeddc6864d12634cec658a64b358b26c6a4138
