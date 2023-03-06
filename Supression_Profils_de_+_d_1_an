@@ -1,0 +1,11 @@
+Write-Host "Script de suppression de profils utilisateurs de plus d'1 an"
+
+
+Get-WmiObject -Class win32_userprofile | Where-Object {
+
+    $_.special -eq $false -and `
+    [System.Management.ManagementDateTimeConverter]::ToDateTime($_.LastUseTime) -lt (Get-Date).AddMonths(-12)
+
+
+
+} | Remove-WmiObject
