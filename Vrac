@@ -1,4 +1,4 @@
-# RunAs Powershell
+# RunAs Powershell (Démarrer "Powershell en tant que")
 powershell -Command "Start-Process PowerShell -Verb RunAs"
 
 # Extraire License Key OEM Windows
