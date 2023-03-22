@@ -1,0 +1,1 @@
+(Get-ItemProperty "HKLM:\System\CurrentControlSet\Control\FileSystem").LongPathsEnabled
