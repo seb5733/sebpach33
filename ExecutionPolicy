@@ -1,0 +1,3 @@
+Start-Process PowerShell -ArgumentList "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Force" -Verb RunAs
+
+Start-Process PowerShell -ArgumentList "Set-ExecutionPolicy -ExecutionPolicy Restricted -Force" -Verb RunAs
