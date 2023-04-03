@@ -5,7 +5,6 @@ Start-Sleep 10
 $PathUsers = "c:\users"
 $Profiles = Get-ChildItem -Path $PathUsers
 
-
 foreach($ListProfiles in $Profiles){
 
     $PathProfiles = Join-Path $PathUsers $ListProfiles
