@@ -1,0 +1,25 @@
+$Group = "BUILTIN\Utilisateurs"
+$Path1 = "C:\Program Files\folder1"
+$Path2 = "C:\Program Files (x86)\folder2"
+
+# Creation ACE 
+$identity = $Group
+$rigths = 'Modify'
+$inheritance = 'ContainerInherit,ObjectInherit'
+$propagation = 'None'
+$type = 'Allow'
+$ACE = New-Object System.Security.AccessControl.FileSystemAccessRule($identity,$rigths,$inheritance,$propagation,$type)
+
+# ACL on $Path1
+$Acl = Get-Acl -Path $Path1
+$Acl.AddAccessRule($ACE)
+Set-Acl -Path $Path1 -AclObject $Acl
+
+# ACL on $Path2
+$Acl = Get-Acl -Path $Path2
+$Acl.AddAccessRule($ACE)
+Set-Acl -Path $Path2 -AclObject $Acl
+
+#Vérification des ACL
+#(Get-Acl -Path $Path1).Access | ft -AutoSize
+#(Get-Acl -Path $Path2).Access | ft -AutoSize
