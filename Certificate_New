@@ -1,0 +1,49 @@
+# Autorise l'éxécution de scripts non signés
+Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Force
+
+# Récupération des infos du poste
+$DnsName = Get-ComputerInfo
+
+# Construction du nommage de $DnsName en UCXXXXXXXXXXXX.DomainName.FR
+$DnsName = ($DnsName.CsDNSHostname)+"."+($DnsName.CsDomain)
+
+# Demande d'un nouveau certificat à mettre dans "Magasin_Certificats\Ordinateur_Local\Personnel" via le TEMPLATE "802.1X-Ordinateur"
+Get-Certificate -DnsName $DnsName -CertStoreLocation "Cert:\LocalMachine\My" -Template "802.1X-Ordinateur"
+
+# Vérification que le nouveau certificat égal à 3 ans, a bien été crée.
+$VerifCert = Get-ChildItem Cert:\LocalMachine\My | ?{$_.NotAfter -gt (Get-Date).AddDays(1095)}
+
+# Boucle d'affichage de réussite ou non pour la création du certificat en vérifiant si la variable $VerifCert est nulle ou non.
+If($VerifCert -eq $null){
+
+    # Si aucun certificat crée alors ce message apparait
+    Write-Host "Aucun certificat n'a été crée." -ForegroundColor Yellow -BackgroundColor Black
+
+}
+Else{
+
+    # Sinon un certificat a été crée et ce message apparait
+    Write-Host "Création d'un certificat réussie." -ForegroundColor Green -BackgroundColor Red
+
+}
+
+# Récupération des noms de certificats expirant en dessous de 3 ans 
+$RemCert = (Get-ChildItem Cert:\LocalMachine\My -ExpiringInDays 1095).Thumbprint
+
+Try{
+
+    # Suppression des certificats trouvés et stockés dans la variable $RemCert
+    Remove-Item Cert:\LocalMachine\My\$RemCert -Force
+    # Message de suppressions réussies
+    Write-Host "Des certificats ayant une date de validité de moins de 3 ans ont été supprimés." -ForegroundColor Green -BackgroundColor Black
+
+}
+Catch{
+
+    # Message si la variable $RemCert est nulle car aucun certificat n'a été trouvé.
+    Write-Host "Aucun certificat avec une date de validité de moins de 3 ans n'est à supprimer." -ForegroundColor Yellow -BackgroundColor Black
+
+}
+
+# Rétablit la sécurité lors de l'éxécution de scripts non signés
+Set-ExecutionPolicy -ExecutionPolicy Restricted -Force
