@@ -1,0 +1,12 @@
+$GpoName = Get-GPO -All | ? DisplayName -ne "Default Domain Controllers Policy"
+$GpoName = $GpoName | ? DisplayName -ne "Default Domain Policy"
+
+$BackupPath = "D:\Gpo"
+
+foreach($ListGPO in $GpoName){
+
+    $GpoPath = $BackupPath+"\"+"$(($ListGPO).DisplayName)"
+    New-Item $GpoPath -ItemType Directory
+    Backup-GPO -Path $GpoPath -Name "$(($ListGPO).DisplayName)"
+
+}
