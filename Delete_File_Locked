@@ -1,7 +1,7 @@
 $AllProcesses = Get-Process
 $LockedFile = "fichier.txt"
 
-Foreach-Object ($Process in $AllProcesses){ 
+Foreach ($Process in $AllProcesses){ 
 
     $Process.Modules | Where-Object {$_.FileName -eq $LockedFile} | Stop-Process -Force -ErrorAction SilentlyContinue
     
